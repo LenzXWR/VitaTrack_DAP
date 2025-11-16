@@ -1,3 +1,5 @@
+package com.example.vitatrack;
+
 public class Habito {
     private String nombre;
     private String progreso;

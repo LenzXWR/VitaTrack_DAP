@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
+import android.content.Intent;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerViewHabitos;
@@ -44,5 +46,25 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewHabitos.setAdapter(adapter);
 
 
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setSelectedItemId(R.id.nav_inicio);
+        bottomNav.setOnItemSelectedListener(item -> {int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_progreso) {
+                Intent progresoIntent = new Intent(MainActivity.this, ProgresoActivity.class);
+                startActivity(progresoIntent);
+                return true;
+
+            } else if (itemId == R.id.nav_recordatorios) {
+                // Navegar a la Activity de Recordatorios (tarea de Jhan)
+                return true;
+
+            } else if (itemId == R.id.nav_inicio) {
+                return true;
+            }
+
+            return false;
+        });
     }
-}
+    }

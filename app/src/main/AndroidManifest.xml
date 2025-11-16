@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VitaTrack">
         <activity
+            android:name=".ProgresoActivity"
+            android:exported="false" />
+        <activity
             android:name=".RemindersActivity"
             android:exported="false" />
         <activity
