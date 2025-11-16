@@ -1,24 +1,37 @@
 package com.example.vitatrack;
 
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 public class AddHabitActivity extends AppCompatActivity {
+
+    private Spinner spinnerHabit;
+    private EditText etQuantity;
+    private Button btnSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_habit);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        spinnerHabit = findViewById(R.id.TipoDeHabito);
+        etQuantity = findViewById(R.id.cantidad);
+        btnSave = findViewById(R.id.GuardarHabito);
+
+        // Configurar Spinner
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this,
+                R.array.habit_types,
+                android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerHabit.setAdapter(adapter);
+
+        // Botón guardar (por ahora solo cierra la pantalla)
+        btnSave.setOnClickListener(v -> finish());
     }
 }

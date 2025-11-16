@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <resources>
+        <string-array name="habit_types">
+            <item>Consumo de Agua</item>
+            <item>Actividad Física</item>
+            <item>Horas de Sueño</item>
+        </string-array>
+    </resources>
