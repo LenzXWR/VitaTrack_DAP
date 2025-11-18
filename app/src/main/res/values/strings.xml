@@ -1,3 +1,12 @@
 <resources>
+
     <string name="app_name">VitaTrack</string>
+
+    <!-- Lista de tipos de hábitos para el Spinner -->
+    <string-array name="habit_types">
+        <item>Consumo de Agua</item>
+        <item>Actividad Física</item>
+        <item>Horas de Sueño</item>
+    </string-array>
+
 </resources>

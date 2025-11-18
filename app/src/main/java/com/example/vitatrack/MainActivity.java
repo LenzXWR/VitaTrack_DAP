@@ -13,18 +13,19 @@ import java.util.ArrayList;
 import java.util.List;
 import android.content.Intent;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerViewHabitos;
     HabitoAdapter adapter;
     List<Habito> listaDeHabitos;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -33,23 +34,26 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerViewHabitos = findViewById(R.id.RecicleViewHabito);
 
-        //estos son ejemplos ya que el inge dijo que aun no estara conectada a una base de datos
-
         listaDeHabitos = new ArrayList<>();
         listaDeHabitos.add(new Habito("Consumo de Agua", "2 de 8 vasos"));
         listaDeHabitos.add(new Habito("Actividad Física", "30 de 60 minutos"));
         listaDeHabitos.add(new Habito("Horas de Sueño", "6 de 8 horas"));
 
         adapter = new HabitoAdapter(listaDeHabitos);
-
         recyclerViewHabitos.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewHabitos.setAdapter(adapter);
 
+        FloatingActionButton fabAddHabit = findViewById(R.id.fab_add_habit);
+        fabAddHabit.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AddHabitActivity.class);
+            startActivity(intent);
+        });
 
-
+        // navegación inferior
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setSelectedItemId(R.id.nav_inicio);
-        bottomNav.setOnItemSelectedListener(item -> {int itemId = item.getItemId();
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
 
             if (itemId == R.id.nav_progreso) {
                 Intent progresoIntent = new Intent(MainActivity.this, ProgresoActivity.class);
@@ -57,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             } else if (itemId == R.id.nav_recordatorios) {
-                // Navegar a la Activity de Recordatorios (tarea de Jhan)
                 return true;
 
             } else if (itemId == R.id.nav_inicio) {
@@ -67,4 +70,4 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
     }
-    }
+}

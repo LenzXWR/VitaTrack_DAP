@@ -24,6 +24,8 @@
         android:src="@drawable/ic_add"
         tools:layout_editor_absoluteX="355dp"
         tools:layout_editor_absoluteY="0dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:tint="@color/white"
         tools:ignore="MissingConstraints" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
