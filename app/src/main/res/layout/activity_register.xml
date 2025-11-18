@@ -154,7 +154,7 @@
 
     <!-- Ir a login -->
     <TextView
-        android:id="@+id/txtGoLogin"
+        android:id="@+id/txtLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="¿Ya tienes cuenta? Inicia sesión"
