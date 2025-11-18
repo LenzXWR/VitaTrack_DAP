@@ -18,11 +18,12 @@ public class AddHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit);
 
+        // Tus ids originales
         spinnerHabit = findViewById(R.id.TipoDeHabito);
         etQuantity = findViewById(R.id.cantidad);
         btnSave = findViewById(R.id.GuardarHabito);
 
-        // Configurar Spinner
+        // Configurar spinner (correcto)
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.habit_types,
@@ -31,7 +32,7 @@ public class AddHabitActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerHabit.setAdapter(adapter);
 
-        // Botón guardar (por ahora solo cierra la pantalla)
+        // Botón guardar
         btnSave.setOnClickListener(v -> finish());
     }
 }
