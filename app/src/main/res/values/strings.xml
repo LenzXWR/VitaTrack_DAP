@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">VitaTrack</string>
+
+    <string-array name="habits_array">
+        <item>Consumo de Agua</item>
+        <item>Actividad Física</item>
+        <item>Horas de Sueño</item>
+    </string-array>
+
+    <string-array name="freq_array">
+        <item>Diario</item>
+        <item>Días laborables</item>
+        <item>Fin de semana</item>
+    </string-array>
 </resources>
+
