@@ -58,20 +58,6 @@ public class CreateReminderActivity extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener(v -> {
-
-            if (spinnerHabit.getSelectedItem() == null) {
-                android.widget.Toast.makeText(this, "Seleccione un hábito", android.widget.Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (selectedTime == null || selectedTime.isEmpty()) {
-                android.widget.Toast.makeText(this, "Seleccione una hora", android.widget.Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (spinnerFrequency.getSelectedItem() == null) {
-                android.widget.Toast.makeText(this, "Seleccione la frecuencia", android.widget.Toast.LENGTH_SHORT).show();
-                return;
-            }
-
             Intent result = new Intent();
             result.putExtra("habit", spinnerHabit.getSelectedItem().toString());
             result.putExtra("time", selectedTime);
