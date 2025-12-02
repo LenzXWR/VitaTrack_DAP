@@ -28,7 +28,9 @@ public class SplashActivity extends AppCompatActivity {
 
         // Abrir LoginActivity después del splash
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+            startActivity(intent);
+            overridePendingTransition(0, 0); // <- quita la animación al abrir LoginActivity
             finish(); // Cierra el splash
         }, SPLASH_DURATION);
     }
