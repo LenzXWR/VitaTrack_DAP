@@ -1,45 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <Spinner
-        android:id="@+id/TipoDeHabito"
-        android:layout_width="0dp"
+    <!-- Titulo -->
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:padding="12dp"
-        android:backgroundTint="@color/colorPrimary"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
-
-    <EditText
-        android:id="@+id/cantidad"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:padding="12dp"
-        android:hint="Ingresa la cantidad o duración"
+        android:text="Registrar Hábito"
         android:textColor="@color/black"
-        android:backgroundTint="@color/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/TipoDeHabito"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp"/>
 
+    <!-- Spinner de Tipo Hábitos -->
+    <Spinner
+        android:id="@+id/spinnerHabitType"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/spinner_background"
+        android:padding="8dp"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- Cantidad / Duración  -->
+    <EditText
+        android:id="@+id/editHabitQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Cantidad"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_marginBottom="28dp"/>
+
+    <!-- Guardar -->
     <Button
-        android:id="@+id/GuardarHabito"
-        android:layout_width="0dp"
+        android:id="@+id/btnSaveHabit"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:text="Guardar hábito"
-        android:textColor="@color/white"
-        android:backgroundTint="@color/colorSecondary"
-        app:layout_constraintTop_toBottomOf="@id/cantidad"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        android:text="Guardar"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/btn_save"
+        android:padding="12dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+

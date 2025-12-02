@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         // FAB correcto
         FloatingActionButton fabAddHabit = findViewById(R.id.fabAddHabit);
+
         fabAddHabit.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddHabitActivity.class);
             startActivity(intent);

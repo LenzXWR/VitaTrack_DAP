@@ -12,5 +12,11 @@
         <item>Días laborables</item>
         <item>Fin de semana</item>
     </string-array>
+
+    <string name="title_add_habit">Registrar Hábito</string>
+    <string name="label_habit_type">Tipo de Hábito</string>
+    <string name="label_quantity">Cantidad / Duración</string>
+    <string name="btn_save">Guardar</string>
+
 </resources>
 
