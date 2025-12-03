@@ -1,11 +1,10 @@
 package com.example.vitatrack.ui.reminders;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -13,12 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-
 import com.example.vitatrack.notifications.AlarmReceiver;
 import com.example.vitatrack.storage.ReminderStorage;
-
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.example.vitatrack.R;
 import com.example.vitatrack.models.Reminder;
@@ -41,26 +36,41 @@ public class RemindersActivity extends AppCompatActivity {
         rv = findViewById(R.id.rvReminders);
         FloatingActionButton fab = findViewById(R.id.fabAddReminder);
 
-        // Datos falsos por ahora (demo)
-        reminderList.add(new Reminder(1, "Consumo de Agua", "08:00", "Diario", true));
-        reminderList.add(new Reminder(2, "Actividad Física", "18:00", "Lunes, Miércoles, Viernes", false));
+        // 1. Cargar datos (o usar demo si está vacío)
+        reminderList = ReminderStorage.loadReminders(this);
 
-        adapter = new ReminderAdapter(reminderList);
+        if (reminderList.isEmpty()) {
+            reminderList.add(new Reminder(1, "Consumo de Agua", "08:00", "Diario", true));
+            reminderList.add(new Reminder(2, "Actividad Física", "18:00", "Lunes, Miércoles, Viernes", false));
+        }
+
+        // 2. Configurar el Adaptador
+        adapter = new ReminderAdapter(reminderList, (reminder, enabled) -> {
+            // Guardar estado cambiado (Switch on/off)
+            ReminderStorage.saveReminders(RemindersActivity.this, reminderList);
+
+            // Activar o cancelar alarma del sistema
+            if (enabled) scheduleAlarm(RemindersActivity.this, reminder);
+            else cancelAlarm(RemindersActivity.this, reminder);
+        });
+
         rv.setLayoutManager(new LinearLayoutManager(this));
         rv.setAdapter(adapter);
 
+        // 3. El Botón Flotante (Versión fusionada)
+        // Usamos startActivityForResult para saber cuando el usuario guardó algo nuevo
         fab.setOnClickListener(v -> {
             Intent i = new Intent(this, CreateReminderActivity.class);
             startActivityForResult(i, REQ_CREATE);
         });
 
-        // (re-programar alarmas existentes en inicio)
+        // 4. Reprogramar alarmas existentes al abrir la app (Lógica de Jhan)
         for (Reminder r : reminderList) {
             if (r.isEnabled()) scheduleAlarm(this, r);
         }
-
     }
 
+    // Este método recibe los datos cuando vuelves de "Crear Recordatorio"
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -74,22 +84,26 @@ public class RemindersActivity extends AppCompatActivity {
             long newId = System.currentTimeMillis();
 
             Reminder newR = new Reminder(
-                    System.currentTimeMillis(),
+                    newId, // Usamos el tiempo actual como ID único
                     habit,
                     time,
                     frequency,
                     true
             );
 
+            // Agregamos al inicio de la lista
             reminderList.add(0, newR);
-            //adapter.notifyItemInserted(reminderList.size() - 1);
             adapter.notifyItemInserted(0);
+            rv.scrollToPosition(0); // Hacemos scroll arriba para ver el nuevo
 
-            // guardar y programar alarma
+            // Guardar en almacenamiento y programar alarma
             ReminderStorage.saveReminders(this, reminderList);
             scheduleAlarm(this, newR);
         }
     }
+
+    // --- MÉTODOS DE ALARMA (Lógica de Jhan) ---
+
     private void scheduleAlarm(Context ctx, Reminder r) {
         // transformar hora "HH:mm" a hora y minuto
         String[] parts = r.getTime().split(":");
@@ -125,7 +139,13 @@ public class RemindersActivity extends AppCompatActivity {
 
         AlarmManager am = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
         if (am != null) {
-            am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pending);
+            // Usamos setExactAndAllowWhileIdle para que suene incluso en modo ahorro
+            try {
+                am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pending);
+            } catch (SecurityException e) {
+                // En Android 12+ se requieren permisos especiales para alarmas exactas,
+                // pero para este proyecto esto debería bastar.
+            }
         }
     }
 
