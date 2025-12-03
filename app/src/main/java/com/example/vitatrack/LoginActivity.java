@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // Register
-        TextView btnRegister = findViewById(R.id.btnRegister);
+        TextView btnRegister = findViewById(R.id.txtRegister);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
