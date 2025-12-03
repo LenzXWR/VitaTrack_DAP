@@ -8,9 +8,9 @@
     </string-array>
 
     <string-array name="freq_array">
-        <item>Diario</item>
-        <item>Días laborables</item>
-        <item>Fin de semana</item>
+        <item>Diariamente</item>
+        <item>Lunes a Viernes</item>
+        <item>Fines de Semana</item>
     </string-array>
 
     <string name="title_add_habit">Registrar Hábito</string>

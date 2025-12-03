@@ -43,8 +43,8 @@ public class HabitoAdapter extends RecyclerView.Adapter<HabitoAdapter.HabitoView
 
         public HabitoViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvNombreHabito = itemView.findViewById(R.id.NombreDelHabito);
-            tvProgresoHabito = itemView.findViewById(R.id.ProgresoDeHabito);
+            tvNombreHabito = itemView.findViewById(R.id.tvNombreHabito);
+            tvProgresoHabito = itemView.findViewById(R.id.tvProgresoHabito);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.example.vitatrack.ui.reminders;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +43,16 @@ public class RemindersActivity extends AppCompatActivity {
             Intent i = new Intent(this, CreateReminderActivity.class);
             startActivityForResult(i, REQ_CREATE);
         });
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RemindersActivity.this, CreateReminderActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

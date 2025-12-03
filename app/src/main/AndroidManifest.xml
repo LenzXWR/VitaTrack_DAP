@@ -14,9 +14,13 @@
         <activity
             android:name=".ProgresoActivity"
             android:exported="false" />
-        <activity
-            android:name=".RemindersActivity"
+
+        <activity android:name=".ui.reminders.RemindersActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.reminders.CreateReminderActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.reminders.RemindersActivity" />
         <activity
             android:name=".AddHabitActivity"
             android:exported="false" />

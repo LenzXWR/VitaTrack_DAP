@@ -1,54 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:padding="16dp"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#FFFFFF">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Configurar Recordatorio"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp"
+        android:textColor="#000000"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selecciona el hábito"
+        android:layout_marginBottom="8dp"/>
+
+    <Spinner
+        android:id="@+id/spinnerHabit"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hora del recordatorio"
+        android:layout_marginBottom="8dp"/>
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView android:text="Tipo de hábito" />
-
-        <Spinner
-            android:id="@+id/spinnerHabit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_marginTop="12dp"
-            android:text="Hora"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:id="@+id/tvSelectedTime"
-            android:padding="10dp"
-            android:background="@android:drawable/edit_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:text="08:00"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#000000"/>
 
         <Button
             android:id="@+id/btnPickTime"
-            android:text="Elegir hora"
             android:layout_width="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_marginTop="12dp"
-            android:text="Frecuencia"/>
-
-        <Spinner
-            android:id="@+id/spinnerFrequency"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btnSaveReminder"
-            android:text="Guardar"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="Cambiar Hora"/>
     </LinearLayout>
-</ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Frecuencia"
+        android:layout_marginBottom="8dp"/>
+
+    <Spinner
+        android:id="@+id/spinnerFrequency"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:layout_marginBottom="32dp"/>
+
+    <Button
+        android:id="@+id/btnSaveReminder"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Guardar Recordatorio"
+        android:backgroundTint="@color/colorPrimary"/> </LinearLayout>

@@ -1,71 +1,56 @@
 package com.example.vitatrack;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class AddHabitActivity extends AppCompatActivity {
 
-    private Spinner spinnerHabitType;
-    private EditText editQuantity;
-    private Button btnSaveHabit;
+    private TextInputEditText etNombreHabito;
+    private TextInputEditText etCantidad;
+    private Button btnGuardar;
+    private Button btnCancelar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit);
 
-        spinnerHabitType = findViewById(R.id.spinnerHabitType);
-        editQuantity = findViewById(R.id.editHabitQuantity);
-        btnSaveHabit = findViewById(R.id.btnSaveHabit);
+        etNombreHabito = findViewById(R.id.etNombreHabito);
 
-        // Poblar Spinner
-        String[] habitTypes = {"Consumo de Agua", "Actividad Física", "Horas de Sueño"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                R.layout.spinner_item,
-                habitTypes
-        );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerHabitType.setAdapter(adapter);
+        etCantidad = findViewById(R.id.etCantidad);
 
-        // Cambiar hint según selección
-        spinnerHabitType.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+        btnGuardar = findViewById(R.id.btnGuardar);
+
+        btnCancelar = findViewById(R.id.btnCancelar);
+
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        editQuantity.setHint("Cantidad (vasos)");
-                        break;
-                    case 1:
-                        editQuantity.setHint("Duración (minutos)");
-                        break;
-                    case 2:
-                        editQuantity.setHint("Horas dormidas");
-                        break;
+            public void onClick(View v) {
+                String nombre = etNombreHabito.getText().toString();
+                String cantidad = etCantidad.getText().toString();
+
+                if (nombre.isEmpty() || cantidad.isEmpty()) {
+                    if(nombre.isEmpty()) etNombreHabito.setError("Escribe un nombre");
+                    if(cantidad.isEmpty()) etCantidad.setError("Define una meta");
+                } else {
+
+                    Toast.makeText(AddHabitActivity.this, "Hábito guardado: " + nombre, Toast.LENGTH_SHORT).show();
+                    finish(); // Cierra la pantalla y vuelve al inicio
                 }
             }
-
-            @Override
-            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
         });
 
-        // Guardar
-        btnSaveHabit.setOnClickListener(v -> {
-            String cantidad = editQuantity.getText().toString().trim();
-
-            if (cantidad.isEmpty()) {
-                editQuantity.setError("Ingrese un valor");
-                return;
-            }
-
-            finish();
-        });
+        if (btnCancelar != null) {
+            btnCancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish(); // Solo cierra la pantalla
+                }
+            });
+        }
     }
 }
-
