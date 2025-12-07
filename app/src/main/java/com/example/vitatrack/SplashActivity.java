@@ -1,6 +1,7 @@
 package com.example.vitatrack;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,11 +27,20 @@ public class SplashActivity extends AppCompatActivity {
         Animation zoomIn = AnimationUtils.loadAnimation(this, R.anim.zoom_in);
         logo.startAnimation(zoomIn);
 
-        // Abrir LoginActivity después del splash
+        // Verificar el estado de la sesión antes de redirigir
+        SharedPreferences prefs = getSharedPreferences("user_session", MODE_PRIVATE);
+        boolean isLoggedIn = prefs.getBoolean("isLoggedIn", false);  // El valor por defecto es false
+
+        // Abrir LoginActivity o MainActivity según el estado de la sesión
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+            Intent intent;
+            if (isLoggedIn) {
+                intent = new Intent(SplashActivity.this, MainActivity.class);
+            } else {
+                intent = new Intent(SplashActivity.this, LoginActivity.class);
+            }
             startActivity(intent);
-            overridePendingTransition(0, 0); // <- quita la animación al abrir LoginActivity
+            overridePendingTransition(0, 0); // Quitar animación al abrir la actividad
             finish(); // Cierra el splash
         }, SPLASH_DURATION);
     }

@@ -1,5 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
+
+    // Plugin de Firebase
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -39,8 +42,27 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.recyclerview)
+    implementation(libs.firebase.auth)
+    implementation(libs.swiperefreshlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation("com.google.android.material:material:1.13.0")
+
+    // --------------------
+    //     FIREBASE
+    // --------------------
+
+    // BOM de Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.6.0"))
+
+    // Firebase Auth
+    implementation("com.google.firebase:firebase-auth")
+
+    // Firestore
+    implementation("com.google.firebase:firebase-firestore")
+
+    // Firebase Realtime Database (si vas a usar Realtime Database en lugar de Firestore)
+    implementation("com.google.firebase:firebase-database")
+
 }

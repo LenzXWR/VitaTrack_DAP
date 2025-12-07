@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,6 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VitaTrack">
+
+        <receiver android:name=".notifications.AlarmReceiver" android:enabled="true" android:exported="false" />
 
         <!-- SPLASH PRIMERO -->
         <activity
@@ -27,12 +35,12 @@
             android:name=".ProgresoActivity"
             android:exported="false" />
 
-        <activity android:name=".ui.reminders.RemindersActivity"
+        <activity android:name=".RemindersActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.reminders.CreateReminderActivity"
+            android:name=".CreateReminderActivity"
             android:exported="false"
-            android:parentActivityName=".ui.reminders.RemindersActivity" />
+            android:parentActivityName=".RemindersActivity" />
         <activity
             android:name=".AddHabitActivity"
             android:exported="false" />

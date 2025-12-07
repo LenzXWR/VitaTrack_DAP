@@ -13,29 +13,35 @@ import java.util.List;
 
 public class ReminderStorage {
 
-    private static final String PREF_NAME = "reminders_pref";
-    private static final String KEY_DATA = "reminders_data";
+    private static final String PREF_NAME = "reminders_pref"; // Nombre del archivo de preferencias
+    private static final String KEY_DATA = "reminders_data";  // Clave para almacenar los recordatorios
 
-    public static void saveReminders(Context ctx, List<Reminder> list) {
-        SharedPreferences pref = ctx.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
+    // Método para guardar los recordatorios en SharedPreferences
+    public static void saveReminders(Context ctx, List<Reminder> reminders) {
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
+        // Convertir la lista de recordatorios a JSON usando Gson
         Gson gson = new Gson();
-        String json = gson.toJson(list);
+        String json = gson.toJson(reminders);
 
+        // Guardar el JSON en SharedPreferences
         editor.putString(KEY_DATA, json);
-        editor.apply();
+        editor.apply(); // Guardar de forma asíncrona
     }
 
+    // Método para cargar los recordatorios desde SharedPreferences
     public static List<Reminder> loadReminders(Context ctx) {
-        SharedPreferences pref = ctx.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = ctx.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 
-        String json = pref.getString(KEY_DATA, null);
+        // Obtener el JSON guardado
+        String json = sharedPreferences.getString(KEY_DATA, null);
 
         if (json == null) {
-            return new ArrayList<>();
+            return new ArrayList<>();  // Si no hay datos, devolver una lista vacía
         }
 
+        // Convertir el JSON de vuelta a la lista de recordatorios
         Gson gson = new Gson();
         Type type = new TypeToken<List<Reminder>>() {}.getType();
         return gson.fromJson(json, type);

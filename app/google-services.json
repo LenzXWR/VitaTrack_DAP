@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1090030158916",
+    "project_id": "vitatrack-00",
+    "storage_bucket": "vitatrack-00.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090030158916:android:2898f38e29d8090656e811",
+        "android_client_info": {
+          "package_name": "com.example.vitatrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDVMZAon4eQqgnNM39BISTOPumdlI3nqg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

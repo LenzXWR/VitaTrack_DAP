@@ -15,6 +15,7 @@
         android:padding="24dp">
 
         <TextView
+            android:id="@+id/tvTitulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nuevo Hábito"
@@ -24,6 +25,7 @@
             android:layout_marginTop="20dp"/>
 
         <TextView
+            android:id="@+id/tvDescripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Define tu meta para hoy"
@@ -32,6 +34,7 @@
             android:layout_marginBottom="32dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilNombreHabito"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre del Hábito"
@@ -47,6 +50,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilCantidadHabito"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Cantidad / Meta (ej. 8 vasos)"

@@ -7,6 +7,10 @@ public class Reminder {
     private String frequency;
     private boolean enabled;
 
+    public Reminder() {
+        // Constructor vacío necesario para Firestore
+    }
+
     public Reminder(long id, String habitType, String time, String frequency, boolean enabled) {
         this.id = id;
         this.habitType = habitType;
@@ -15,18 +19,44 @@ public class Reminder {
         this.enabled = enabled;
     }
 
-    public long getId() { return id; }
-    public void setId(long id) { this.id = id; }
+    // Getters y Setters
+    public long getId() {
+        return id;
+    }
 
-    public String getHabitType() { return habitType; }
-    public void setHabitType(String habitType) { this.habitType = habitType; }
+    public void setId(long id) {
+        this.id = id;
+    }
 
-    public String getTime() { return time; }
-    public void setTime(String time) { this.time = time; }
+    public String getHabitType() {
+        return habitType;
+    }
 
-    public String getFrequency() { return frequency; }
-    public void setFrequency(String frequency) { this.frequency = frequency; }
+    public void setHabitType(String habitType) {
+        this.habitType = habitType;
+    }
 
-    public boolean isEnabled() { return enabled; }
-    public void setEnabled(boolean enabled) { this.enabled = enabled; }
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 }
