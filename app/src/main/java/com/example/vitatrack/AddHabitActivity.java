@@ -1,5 +1,6 @@
 package com.example.vitatrack;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,12 +15,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class AddHabitActivity extends AppCompatActivity {
 
     private TextInputEditText etNombreHabito;
-    private TextInputEditText etCantidad;
+    private TextInputEditText etDescripcion;
     private Button btnGuardar;
     private Button btnCancelar;
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +33,7 @@ public class AddHabitActivity extends AppCompatActivity {
 
         // Asociar las vistas con los IDs
         etNombreHabito = findViewById(R.id.etNombreHabito);
-        etCantidad = findViewById(R.id.etCantidad);
+        etDescripcion = findViewById(R.id.etDescripcion);
         btnGuardar = findViewById(R.id.btnGuardar);
         btnCancelar = findViewById(R.id.btnCancelar);
 
@@ -40,18 +42,18 @@ public class AddHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String nombre = etNombreHabito.getText().toString();
-                String cantidad = etCantidad.getText().toString();
+                String descripcion = etDescripcion.getText().toString();
 
                 // Validación de campos vacíos
-                if (nombre.isEmpty() || cantidad.isEmpty()) {
+                if (nombre.isEmpty() || descripcion.isEmpty()) {
                     if (nombre.isEmpty()) etNombreHabito.setError("Escribe un nombre");
-                    if (cantidad.isEmpty()) etCantidad.setError("Define una meta");
+                    if (descripcion.isEmpty()) etDescripcion.setError("Define una meta");
                 } else {
                     // Obtener el UID del usuario autenticado
                     String userId = mAuth.getCurrentUser().getUid();
 
                     // Crear un objeto Hábito para almacenar en Firestore
-                    Habito nuevoHabito = new Habito(nombre, cantidad);
+                    Habito nuevoHabito = new Habito(nombre, descripcion);
 
                     // Guardar el hábito en Firestore
                     db.collection("usuarios")

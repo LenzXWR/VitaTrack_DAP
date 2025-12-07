@@ -29,7 +29,7 @@ public class HabitoAdapter extends RecyclerView.Adapter<HabitoAdapter.HabitoView
     public void onBindViewHolder(@NonNull HabitoViewHolder holder, int position) {
         Habito habito = listaHabitos.get(position);
         holder.tvNombreHabito.setText(habito.getNombre());
-        holder.tvProgresoHabito.setText(habito.getProgreso());
+        holder.tvDescripcionHabito.setText(habito.getDescripcion());
     }
 
     @Override
@@ -39,12 +39,12 @@ public class HabitoAdapter extends RecyclerView.Adapter<HabitoAdapter.HabitoView
 
     public static class HabitoViewHolder extends RecyclerView.ViewHolder {
         TextView tvNombreHabito;
-        TextView tvProgresoHabito;
+        TextView tvDescripcionHabito;
 
         public HabitoViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNombreHabito = itemView.findViewById(R.id.tvNombreHabito);
-            tvProgresoHabito = itemView.findViewById(R.id.tvProgresoHabito);
+            tvDescripcionHabito = itemView.findViewById(R.id.tvDescripcionHabito);
         }
     }
 }

@@ -45,7 +45,7 @@
                 android:textColor="#333333"/>
 
             <TextView
-                android:id="@+id/tvProgresoHabito"
+                android:id="@+id/tvDescripcionHabito"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0 de 0 completado"
