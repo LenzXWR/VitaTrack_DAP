@@ -1,70 +1,133 @@
 package com.example.vitatrack;
 
-import com.example.vitatrack.ui.reminders.RemindersActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
-import androidx.activity.EdgeToEdge;
+import android.util.Log;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-import android.content.Intent;
+import com.example.vitatrack.ui.reminders.RemindersActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerViewHabitos;
     HabitoAdapter adapter;
     List<Habito> listaDeHabitos;
+    FirebaseFirestore db;
+
+    TextView tvWelcomeName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        db = FirebaseFirestore.getInstance();
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
-            return insets;
-        });
+        tvWelcomeName = findViewById(R.id.tvWelcomeName);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            String nombre = user.getDisplayName();
+            if (nombre != null && !nombre.isEmpty()) {
+                tvWelcomeName.setText("Hola, " + nombre + " 👋");
+            } else {
+                tvWelcomeName.setText("Hola, Usuario 👋");
+            }
+        }
 
         recyclerViewHabitos = findViewById(R.id.RecicleViewHabito);
-
         listaDeHabitos = new ArrayList<>();
-        listaDeHabitos.add(new Habito("Consumo de Agua", "2 de 8 vasos"));
-        listaDeHabitos.add(new Habito("Actividad Física", "30 de 60 minutos"));
-        listaDeHabitos.add(new Habito("Horas de Sueño", "6 de 8 horas"));
-
         adapter = new HabitoAdapter(listaDeHabitos);
         recyclerViewHabitos.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewHabitos.setAdapter(adapter);
 
-        FloatingActionButton fabAddHabit = findViewById(R.id.fab_add_habit);
+        escucharHabitosEnTiempoReal();
 
+        FloatingActionButton fabAddHabit = findViewById(R.id.fab_add_habit);
         fabAddHabit.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddHabitActivity.class);
             startActivity(intent);
         });
 
+        setupBottomNavigation();
+    }
+
+    private void setupBottomNavigation() {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setSelectedItemId(R.id.nav_inicio);
 
         bottomNav.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_progreso) {
-                startActivity(new Intent(MainActivity.this, ProgresoActivity.class));
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_inicio) {
                 return true;
-            } else if (item.getItemId() == R.id.nav_recordatorios) {
-                Intent intent = new Intent(MainActivity.this, RemindersActivity.class);
-                startActivity(intent);
-                return true;            }
-            return true;
+            }
+            else if (itemId == R.id.nav_progreso) {
+                startActivity(new Intent(this, ProgresoActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            }
+            else if (itemId == R.id.nav_consejos) {
+                startActivity(new Intent(this, TipsActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            }
+            else if (itemId == R.id.nav_recordatorios) {
+                startActivity(new Intent(this, RemindersActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            }
+            else if (itemId == R.id.nav_perfil) {
+                startActivity(new Intent(this, ProfileActivity.class));
+                overridePendingTransition(0, 0);
+                finish();
+                return true;
+            }
+            return false;
         });
+    }
+
+    private void escucharHabitosEnTiempoReal() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        String myUserId = user.getUid();
+
+        db.collection("habitos")
+                .whereEqualTo("userId", myUserId)
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        Log.e("FirestoreError", "Error al escuchar", error);
+                        return;
+                    }
+
+                    listaDeHabitos.clear();
+
+                    for (QueryDocumentSnapshot doc : value) {
+                        try {
+                            Habito habito = doc.toObject(Habito.class);
+                            habito.setIdDocumento(doc.getId());
+                            listaDeHabitos.add(habito);
+                        } catch (Exception e) {
+                            Log.e("FirestoreError", "Error al convertir", e);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                });
     }
 }

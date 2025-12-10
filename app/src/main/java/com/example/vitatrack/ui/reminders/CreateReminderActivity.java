@@ -7,13 +7,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.vitatrack.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class CreateReminderActivity extends AppCompatActivity {
 
@@ -21,10 +27,19 @@ public class CreateReminderActivity extends AppCompatActivity {
     private TextView tvSelectedTime;
     private String selectedTime = "08:00";
 
+    // Firebase
+    private FirebaseFirestore db;
+    private String userId;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_reminder);
+
+        db = FirebaseFirestore.getInstance();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
 
         spinnerHabit = findViewById(R.id.spinnerHabit);
         spinnerFrequency = findViewById(R.id.spinnerFrequency);
@@ -32,16 +47,11 @@ public class CreateReminderActivity extends AppCompatActivity {
         Button btnPickTime = findViewById(R.id.btnPickTime);
         Button btnSave = findViewById(R.id.btnSaveReminder);
 
-        ArrayAdapter<CharSequence> habitAdapter = ArrayAdapter.createFromResource(
-                this, R.array.habits_array, android.R.layout.simple_spinner_item);
-        habitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinnerHabit.setAdapter(habitAdapter);
+        cargarHabitosEnSpinner();
 
         ArrayAdapter<CharSequence> freqAdapter = ArrayAdapter.createFromResource(
                 this, R.array.freq_array, android.R.layout.simple_spinner_item);
         freqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         spinnerFrequency.setAdapter(freqAdapter);
 
         tvSelectedTime.setText(selectedTime);
@@ -58,17 +68,8 @@ public class CreateReminderActivity extends AppCompatActivity {
         });
 
         btnSave.setOnClickListener(v -> {
-
             if (spinnerHabit.getSelectedItem() == null) {
-                android.widget.Toast.makeText(this, "Seleccione un hábito", android.widget.Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (selectedTime == null || selectedTime.isEmpty()) {
-                android.widget.Toast.makeText(this, "Seleccione una hora", android.widget.Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (spinnerFrequency.getSelectedItem() == null) {
-                android.widget.Toast.makeText(this, "Seleccione la frecuencia", android.widget.Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Primero crea un hábito en el Inicio", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -80,5 +81,38 @@ public class CreateReminderActivity extends AppCompatActivity {
             setResult(RESULT_OK, result);
             finish();
         });
+    }
+
+    private void cargarHabitosEnSpinner() {
+        if (userId == null) return;
+
+        db.collection("habitos")
+                .whereEqualTo("userId", userId)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<String> listaNombres = new ArrayList<>();
+
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        String nombre = doc.getString("nombre");
+                        if (nombre != null) {
+                            listaNombres.add(nombre);
+                        }
+                    }
+
+                    if (listaNombres.isEmpty()) {
+                        listaNombres.add("No tienes hábitos creados");
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                            CreateReminderActivity.this,
+                            android.R.layout.simple_spinner_item,
+                            listaNombres
+                    );
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerHabit.setAdapter(adapter);
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Error al cargar hábitos", Toast.LENGTH_SHORT).show();
+                });
     }
 }

@@ -6,6 +6,11 @@ public class Reminder {
     private String time;
     private String frequency;
     private boolean enabled;
+    private String userId;
+
+
+    public Reminder() {}
+
 
     public Reminder(long id, String habitType, String time, String frequency, boolean enabled) {
         this.id = id;
@@ -15,6 +20,7 @@ public class Reminder {
         this.enabled = enabled;
     }
 
+    // Getters y Setters
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
 
@@ -29,4 +35,7 @@ public class Reminder {
 
     public boolean isEnabled() { return enabled; }
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 }

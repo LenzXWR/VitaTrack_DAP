@@ -93,10 +93,11 @@
         app:layout_constraintTop_toBottomOf="@id/txtTitle">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtEmail"
+            android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-
+            android:textColor="#000000"
+            android:textColorHint="#757575"
             android:inputType="textEmailAddress"
             android:paddingHorizontal="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -119,10 +120,12 @@
         app:layout_constraintTop_toBottomOf="@id/layoutEmail">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtPass"
+            android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:inputType="textPassword"
+            android:textColor="#000000"
+            android:textColorHint="#757575"
             android:paddingHorizontal="12dp" />
     </com.google.android.material.textfield.TextInputLayout>
 

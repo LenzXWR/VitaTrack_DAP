@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:fillViewport="true"
+    android:fitsSystemWindows="true"
     tools:context=".AddHabitActivity">
 
     <LinearLayout
@@ -43,6 +44,8 @@
                 android:id="@+id/etNombreHabito"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textColorHint="#757575"
                 android:inputType="textCapSentences"/>
         </com.google.android.material.textfield.TextInputLayout>
 
