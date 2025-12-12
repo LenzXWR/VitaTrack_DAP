@@ -1,82 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="#F5F5F5"
     android:padding="24dp"
-    android:fitsSystemWindows="true"
-    android:background="#FFFFFF">
+    android:fitsSystemWindows="true">
 
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Configurar Recordatorio"
-        android:textSize="24sp"
+        android:textSize="26sp"
         android:textStyle="bold"
-        android:layout_marginBottom="24dp"
-        android:textColor="#000000"/>
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="16dp"/>
 
     <TextView
+        android:id="@+id/lblHabit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Selecciona el hábito"
-        android:layout_marginBottom="8dp"/>
+        android:text="¿Qué hábito quieres recordar?"
+        android:textColor="#757575"
+        android:layout_marginTop="32dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
 
     <Spinner
         android:id="@+id/spinnerHabit"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:textColor="#000000"
-        android:background="@android:drawable/btn_dropdown"
-        android:layout_marginBottom="20dp"/>
+        android:layout_height="56dp"
+        android:background="@drawable/spinner_background"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/lblHabit"/>
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@android:drawable/arrow_down_float"
+        app:tint="#757575"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="@id/spinnerHabit"
+        app:layout_constraintTop_toTopOf="@id/spinnerHabit"
+        app:layout_constraintBottom_toBottomOf="@id/spinnerHabit"/>
 
     <TextView
+        android:id="@+id/lblTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hora del recordatorio"
-        android:layout_marginBottom="8dp"/>
+        android:text="Hora de la alarma"
+        android:textColor="#757575"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnerHabit"/>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardTimePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="20dp">
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:cardBackgroundColor="#E3F2FD"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/lblTime">
 
-        <TextView
-            android:id="@+id/tvSelectedTime"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="08:00"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="#000000"/>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="24dp">
 
-        <Button
-            android:id="@+id/btnPickTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cambiar Hora"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvSelectedTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="08:00"
+                android:textSize="48sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimary"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Toca para cambiar"
+                android:textColor="@color/colorPrimary"
+                android:alpha="0.7"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <TextView
+        android:id="@+id/lblFreq"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Frecuencia"
-        android:layout_marginBottom="8dp"/>
+        android:textColor="#757575"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardTimePicker"/>
 
     <Spinner
         android:id="@+id/spinnerFrequency"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:textColor="#000000"
-        android:background="@android:drawable/btn_dropdown"
-        android:layout_marginBottom="32dp"/>
+        android:layout_height="56dp"
+        android:background="@drawable/spinner_background"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/lblFreq"/>
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@android:drawable/arrow_down_float"
+        app:tint="#757575"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="@id/spinnerFrequency"
+        app:layout_constraintTop_toTopOf="@id/spinnerFrequency"
+        app:layout_constraintBottom_toBottomOf="@id/spinnerFrequency"/>
 
     <Button
         android:id="@+id/btnSaveReminder"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:text="Guardar Recordatorio"
-        android:backgroundTint="@color/colorPrimary"/> </LinearLayout>
+        android:textSize="16sp"
+        app:cornerRadius="12dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

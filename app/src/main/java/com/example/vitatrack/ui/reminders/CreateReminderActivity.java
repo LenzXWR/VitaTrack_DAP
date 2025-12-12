@@ -8,9 +8,11 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.example.vitatrack.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,7 +29,6 @@ public class CreateReminderActivity extends AppCompatActivity {
     private TextView tvSelectedTime;
     private String selectedTime = "08:00";
 
-    // Firebase
     private FirebaseFirestore db;
     private String userId;
 
@@ -44,43 +45,48 @@ public class CreateReminderActivity extends AppCompatActivity {
         spinnerHabit = findViewById(R.id.spinnerHabit);
         spinnerFrequency = findViewById(R.id.spinnerFrequency);
         tvSelectedTime = findViewById(R.id.tvSelectedTime);
-        Button btnPickTime = findViewById(R.id.btnPickTime);
+        CardView cardTimePicker = findViewById(R.id.cardTimePicker);
         Button btnSave = findViewById(R.id.btnSaveReminder);
 
         cargarHabitosEnSpinner();
 
         ArrayAdapter<CharSequence> freqAdapter = ArrayAdapter.createFromResource(
-                this, R.array.freq_array, android.R.layout.simple_spinner_item);
+                this, R.array.freq_array, R.layout.spinner_item); // <--- OJO AQUÍ
         freqAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFrequency.setAdapter(freqAdapter);
 
-        tvSelectedTime.setText(selectedTime);
+        cardTimePicker.setOnClickListener(v -> mostrarReloj());
 
-        btnPickTime.setOnClickListener(v -> {
-            Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
+        btnSave.setOnClickListener(v -> guardar());
+    }
 
-            new TimePickerDialog(this, (view, h, m) -> {
-                selectedTime = String.format("%02d:%02d", h, m);
-                tvSelectedTime.setText(selectedTime);
-            }, hour, minute, true).show();
-        });
+    private void mostrarReloj() {
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
 
-        btnSave.setOnClickListener(v -> {
-            if (spinnerHabit.getSelectedItem() == null) {
-                Toast.makeText(this, "Primero crea un hábito en el Inicio", Toast.LENGTH_LONG).show();
-                return;
-            }
+        TimePickerDialog picker = new TimePickerDialog(this, (view, h, m) -> {
+            selectedTime = String.format("%02d:%02d", h, m);
+            tvSelectedTime.setText(selectedTime);
+        }, hour, minute, true); // true = formato 24h
 
-            Intent result = new Intent();
-            result.putExtra("habit", spinnerHabit.getSelectedItem().toString());
-            result.putExtra("time", selectedTime);
-            result.putExtra("frequency", spinnerFrequency.getSelectedItem().toString());
+        picker.show();
+    }
 
-            setResult(RESULT_OK, result);
-            finish();
-        });
+    private void guardar() {
+        if (spinnerHabit.getSelectedItem() == null ||
+                spinnerHabit.getSelectedItem().toString().contains("No tienes")) {
+            Toast.makeText(this, "Selecciona un hábito válido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent result = new Intent();
+        result.putExtra("habit", spinnerHabit.getSelectedItem().toString());
+        result.putExtra("time", selectedTime);
+        result.putExtra("frequency", spinnerFrequency.getSelectedItem().toString());
+
+        setResult(RESULT_OK, result);
+        finish();
     }
 
     private void cargarHabitosEnSpinner() {
@@ -94,9 +100,7 @@ public class CreateReminderActivity extends AppCompatActivity {
 
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         String nombre = doc.getString("nombre");
-                        if (nombre != null) {
-                            listaNombres.add(nombre);
-                        }
+                        if (nombre != null) listaNombres.add(nombre);
                     }
 
                     if (listaNombres.isEmpty()) {
@@ -105,7 +109,7 @@ public class CreateReminderActivity extends AppCompatActivity {
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(
                             CreateReminderActivity.this,
-                            android.R.layout.simple_spinner_item,
+                            R.layout.spinner_item, // <--- OJO AQUÍ
                             listaNombres
                     );
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
